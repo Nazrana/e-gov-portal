@@ -37,6 +37,9 @@ app.use((req, res, next) => {
 // View Engine
 app.set("view engine", "ejs");
 
+app.get("/", (req, res) => {
+    res.redirect("/auth/login");
+});
 // Routes
 const authRoutes = require("./routes/auth");
 app.use("/auth", authRoutes);
