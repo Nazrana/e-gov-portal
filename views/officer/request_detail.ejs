@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>Request Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+  <!-- Officer Header -->
+  <header class="bg-white shadow px-6 py-3 flex items-center justify-between relative">
+    <div class="flex items-center gap-3">
+      <img src="/img/e-gov-logo.png" alt="E-Gov Logo" class="h-10">
+      <span class="text-xl font-bold text-gray-800">E-Gov Officer</span>
+    </div>
+
+    <nav class="hidden md:flex gap-8 text-gray-700 font-medium absolute left-1/2 transform -translate-x-1/2">
+      <a href="/dashboard/officer" class="hover:text-[#00bf63] transition">Dashboard</a>
+      <a href="/dashboard/officer/requests" class="text-[#00bf63] font-semibold">Requests</a>
+    </nav>
+
+    <div>
+      <a href="/auth/logout" class="text-gray-700 hover:text-[#00bf63] font-medium transition">Logout</a>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="flex-1 p-6">
+    <div class="max-w-3xl mx-auto">
+      <div class="bg-white rounded-xl shadow p-6">
+        <h3 class="text-2xl font-bold text-gray-800 mb-6">Request Details</h3>
+
+        <!-- Request Info -->
+        <div class="space-y-3 text-gray-700 mb-6">
+          <p><span class="font-semibold">Citizen:</span> <%= request.citizen_name %> (<%= request.citizen_email %>)</p>
+          <p><span class="font-semibold">Service:</span> <%= request.service_name %></p>
+          <p>
+            <span class="font-semibold">Status:</span>
+            <span class="px-2 py-1 rounded-full text-xs font-medium
+              <%= request.status === 'Approved' ? 'bg-green-100 text-green-700' 
+                : request.status === 'Rejected' ? 'bg-red-100 text-red-700' 
+                : request.status === 'In-Progress' ? 'bg-yellow-100 text-yellow-700'
+                : 'bg-blue-100 text-blue-700' %>">
+              <%= request.status %>
+            </span>
+          </p>
+          <p>
+            <span class="font-semibold">Attachment:</span>
+            <% if(request.attachment) { %>
+              <a href="<%= request.attachment %>" target="_blank" class="text-blue-600 hover:underline">Download</a>
+            <% } else { %>
+              -
+            <% } %>
+          </p>
+        </div>
+
+        <!-- Update Status Form -->
+        <form action="/dashboard/officer/requests/<%= request.id %>/status" method="POST" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Update Status</label>
+            <select name="status" required
+              class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#00bf63]">
+              <option value="Under Review" <%= request.status === 'Under Review' ? 'selected' : '' %>>Under Review</option>
+              <option value="Approved" <%= request.status === 'Approved' ? 'selected' : '' %>>Approved</option>
+              <option value="Rejected" <%= request.status === 'Rejected' ? 'selected' : '' %>>Rejected</option>
+              <option value="In-Progress" <%= request.status === 'In-Progress' ? 'selected' : '' %>>In-Progress</option>
+            </select>
+          </div>
+          <div class="flex gap-3">
+            <button class="bg-[#00bf63] text-white px-4 py-2 rounded-lg hover:bg-[#00a854] transition">Update Status</button>
+            <a href="/dashboard/officer/requests" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition">Back</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

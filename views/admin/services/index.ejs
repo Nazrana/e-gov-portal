@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Services - E-Gov Admin</title>
+  <link href="/css/output.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white shadow px-6 py-3 flex items-center justify-between relative">
+    <div class="flex items-center gap-3">
+      <img src="/img/e-gov-logo.png" alt="E-Gov Logo" class="h-10">
+      <span class="text-xl font-bold text-gray-800">E-Gov Admin</span>
+    </div>
+    <nav class="hidden md:flex gap-8 text-gray-700 font-medium absolute left-1/2 transform -translate-x-1/2">
+      <a href="/admin" class="hover:text-[#00bf63] transition">Dashboard</a>
+      <a href="/admin/users" class="hover:text-[#00bf63] transition">Users</a>
+      <a href="/admin/departments" class="hover:text-[#00bf63] transition">Departments</a>
+      <a href="/admin/services" class="hover:text-[#00bf63] transition">Services</a>
+      <a href="/admin/requests" class="hover:text-[#00bf63] transition">Requests</a>
+    </nav>
+    <div class="flex items-center gap-6">
+      <% if (user) { %>
+        <a href="/auth/logout" class="text-gray-700 hover:text-[#00bf63] font-medium transition">Logout</a>
+      <% } else { %>
+        <a href="/auth/login" class="text-gray-700 hover:text-[#00bf63] font-medium transition">Login</a>
+      <% } %>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="flex-1 p-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="bg-white rounded-xl shadow p-6">
+        <h3 class="text-2xl font-bold text-gray-800 mb-6">Services</h3>
+
+        <!-- Search Form -->
+        <form method="GET" action="/admin/services" class="flex flex-wrap gap-3 mb-6">
+          <input type="text" name="search" value="<%= search %>" placeholder="Search services..."
+                 class="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#00bf63] transition" />
+          <button type="submit"
+                  class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
+            Search
+          </button>
+          <% if (search) { %>
+            <a href="/admin/services"
+               class="px-4 py-2 border border-gray-400 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+              Clear
+            </a>
+          <% } %>
+        </form>
+
+        <!-- New Service -->
+        <a href="/admin/services/new"
+           class="inline-block mb-6 bg-[#00bf63] text-white px-4 py-2 rounded-lg font-medium hover:bg-green-600 transition">
+          + New Service
+        </a>
+
+        <!-- Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full border border-gray-200 rounded-lg overflow-hidden">
+            <thead class="bg-gray-100 text-gray-700">
+              <tr>
+                <th class="px-4 py-2 text-left">No</th>
+                <th class="px-4 py-2 text-left">Name</th>
+                <th class="px-4 py-2 text-left">Department</th>
+                <th class="px-4 py-2 text-left">Description</th>
+                <th class="px-4 py-2 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (services.length === 0) { %>
+                <tr>
+                  <td colspan="5" class="px-4 py-4 text-center text-gray-500">No services found</td>
+                </tr>
+              <% } else { %>
+                <% services.forEach((s, i) => { %>
+                  <tr class="border-t hover:bg-gray-50 transition">
+                    <td class="px-4 py-2"><%= i+1 %></td>
+                    <td class="px-4 py-2"><%= s.name %></td>
+                    <td class="px-4 py-2"><%= s.departmentName %></td>
+                    <td class="px-4 py-2"><%= s.description %></td>
+                    <td class="px-4 py-2 flex gap-2">
+                      <a href="/admin/services/<%= s.id %>/edit"
+                         class="bg-yellow-400 text-white px-3 py-1 rounded-lg text-sm hover:bg-yellow-500 transition">
+                        Edit
+                      </a>
+                      <form action="/admin/services/<%= s.id %>?_method=DELETE" method="POST" class="inline">
+                        <button class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-red-600 transition">
+                          Delete
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                <% }) %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

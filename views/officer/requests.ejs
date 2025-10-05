@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>Officer - Requests</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+  <!-- Officer Header -->
+  <header class="bg-white shadow px-6 py-3 flex items-center justify-between relative">
+    <div class="flex items-center gap-3">
+      <img src="/img/e-gov-logo.png" alt="E-Gov Logo" class="h-10">
+      <span class="text-xl font-bold text-gray-800">E-Gov Officer</span>
+    </div>
+
+    <nav class="hidden md:flex gap-8 text-gray-700 font-medium absolute left-1/2 transform -translate-x-1/2">
+      <a href="/dashboard/officer" class="hover:text-[#00bf63] transition">Dashboard</a>
+      <a href="/dashboard/officer/requests" class="text-[#00bf63] font-semibold">Requests</a>
+    </nav>
+
+    <div>
+      <a href="/auth/logout" class="text-gray-700 hover:text-[#00bf63] font-medium transition">Logout</a>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="flex-1 p-6">
+    <div class="max-w-6xl mx-auto">
+      <h3 class="text-2xl font-bold text-gray-800 mb-6">لیست درخواست‌ها</h3>
+
+      <!-- Requests Table -->
+      <div class="bg-white rounded-xl shadow overflow-hidden">
+        <table class="min-w-full table-auto">
+          <thead class="bg-gray-100 text-gray-700">
+            <tr>
+              <th class="px-4 py-3 text-left text-sm font-medium">Citizen</th>
+              <th class="px-4 py-3 text-left text-sm font-medium">Service</th>
+              <th class="px-4 py-3 text-left text-sm font-medium">Status</th>
+              <th class="px-4 py-3 text-left text-sm font-medium">Created</th>
+              <th class="px-4 py-3 text-left text-sm font-medium">Action</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <% requests.forEach(r => { %>
+              <tr class="hover:bg-gray-50">
+                <td class="px-4 py-3 text-sm text-gray-700"><%= r.citizen_name %></td>
+                <td class="px-4 py-3 text-sm text-gray-700"><%= r.service_name %></td>
+                <td class="px-4 py-3 text-sm">
+                  <span class="px-2 py-1 rounded-full text-xs font-medium
+                    <%= r.status === 'approved' ? 'bg-green-100 text-green-700' 
+                      : r.status === 'rejected' ? 'bg-red-100 text-red-700' 
+                      : 'bg-yellow-100 text-yellow-700' %>">
+                    <%= r.status %>
+                  </span>
+                </td>
+                <td class="px-4 py-3 text-sm text-gray-600">
+                  <%= new Date(r.created_at).toLocaleDateString() %>
+                </td>
+                <td class="px-4 py-3">
+                  <a href="/dashboard/officer/requests/<%= r.id %>" 
+                     class="inline-block bg-blue-500 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-600 transition">
+                    Show Detail
+                  </a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

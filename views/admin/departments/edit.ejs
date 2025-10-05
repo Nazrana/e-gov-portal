@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Department - E-Gov Admin</title>
+  <link href="/css/output.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+<!-- Header -->
+  <header class="bg-white shadow px-6 py-3 flex items-center justify-between relative">
+    <div class="flex items-center gap-3">
+      <img src="/img/e-gov-logo.png" alt="E-Gov Logo" class="h-10">
+      <span class="text-xl font-bold text-gray-800">E-Gov Admin</span>
+    </div>
+    <nav class="hidden md:flex gap-8 text-gray-700 font-medium absolute left-1/2 transform -translate-x-1/2">
+      <a href="/admin" class="hover:text-[#00bf63] transition">Dashboard</a>
+      <a href="/admin/users" class="hover:text-[#00bf63] transition">Users</a>
+      <a href="/admin/departments" class="hover:text-[#00bf63] transition">Departments</a>
+      <a href="/admin/services" class="hover:text-[#00bf63] transition">Services</a>
+      <a href="/admin/requests" class="hover:text-[#00bf63] transition">Requests</a>
+    </nav>
+    <div class="flex items-center gap-6">
+      <% if (user) { %>
+        <a href="/auth/logout" class="text-gray-700 hover:text-[#00bf63] font-medium transition">Logout</a>
+      <% } else { %>
+        <a href="/auth/login" class="text-gray-700 hover:text-[#00bf63] font-medium transition">Login</a>
+      <% } %>
+    </div>
+  </header>
+  <main class="flex-1 p-6">
+    <div class="max-w-xl mx-auto">
+      <div class="bg-white rounded-xl shadow p-6">
+        <h3 class="text-2xl font-bold text-gray-800 mb-6">Edit Department</h3>
+
+        <form action="/admin/departments/<%= department.id %>?_method=PUT" method="POST" class="space-y-4">
+          <div>
+            <label class="block mb-1 text-gray-700 font-medium">Name</label>
+            <input type="text" name="name" value="<%= department.name %>"
+                   class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#00bf63] transition" />
+          </div>
+
+          <div>
+            <label class="block mb-1 text-gray-700 font-medium">Description</label>
+            <textarea name="description"
+                      class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#00bf63] transition"><%= department.description %></textarea>
+          </div>
+
+          <div class="flex gap-3">
+            <button type="submit"
+                    class="bg-[#00bf63] text-white px-6 py-2 rounded-lg font-medium hover:bg-green-600 transition">
+              Update
+            </button>
+            <a href="/admin/departments"
+               class="px-6 py-2 border border-gray-400 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+              Cancel
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

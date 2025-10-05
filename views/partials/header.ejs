@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="/">E-Gov Portal</a>
+      <div>
+        <% if (typeof user !== "undefined" && user) { %>
+          <span class="me-3">سلام، <strong><%= user.name %></strong> (<%= user.role %>)</span>
+          <a class="btn btn-outline-danger btn-sm" href="/auth/logout">Logout</a>
+        <% } else { %>
+          <a class="btn btn-outline-primary btn-sm me-2" href="/auth/login">Login</a>
+          <a class="btn btn-primary btn-sm" href="/auth/register">Register</a>
+        <% } %>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="container">
+    <% if (success_msg && success_msg.length) { %>
+      <div class="alert alert-success"><%= success_msg %></div>
+    <% } %>
+    <% if (error_msg && error_msg.length) { %>
+      <div class="alert alert-danger"><%= error_msg %></div>
+    <% } %>
+  </div>
+  

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Officer Dashboard - E-Gov</title>
+  <link href="/css/output.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+  <!-- Officer Header -->
+  <header class="bg-white shadow px-6 py-3 flex items-center justify-between relative">
+    <div class="flex items-center gap-3">
+      <img src="/img/e-gov-logo.png" alt="E-Gov Logo" class="h-10">
+      <span class="text-xl font-bold text-gray-800">E-Gov Officer</span>
+    </div>
+
+    <!-- Officer Navigation -->
+    <nav class="hidden md:flex gap-8 text-gray-700 font-medium absolute left-1/2 transform -translate-x-1/2">
+      <a href="/dashboard/officer" class="hover:text-[#00bf63] transition">Dashboard</a>
+      <a href="/dashboard/officer/requests" class="hover:text-[#00bf63] transition">Requests</a>
+    </nav>
+
+    <div>
+      <a href="/auth/logout" class="text-gray-700 hover:text-[#00bf63] font-medium transition">Logout</a>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="flex-1 p-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="bg-white rounded-xl shadow p-6 mb-6">
+        <h3 class="text-2xl font-bold text-gray-800 mb-2">Welcome, <%= user.name %></h3>
+        <p class="text-gray-600">You are logged in as 
+          <span class="font-semibold text-[#00bf63] capitalize"><%= user.role %></span>.
+        </p>
+      </div>
+
+      <!-- Stats (redesigned like Admin dashboard) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="rounded-xl p-6 text-center text-white bg-gradient-to-tr from-blue-400 to-blue-600 shadow-lg">
+          <h6 class="text-gray-100">Total Requests</h6>
+          <p class="text-3xl font-bold"><%= totalRequests %></p>
+        </div>
+
+        <div class="rounded-xl p-6 text-center text-white bg-gradient-to-tr from-yellow-400 to-yellow-600 shadow-lg">
+          <h6 class="text-gray-100">Pending Requests</h6>
+          <p class="text-3xl font-bold"><%= pendingRequests %></p>
+        </div>
+
+        <div class="rounded-xl p-6 text-center text-white bg-gradient-to-tr from-green-400 to-green-600 shadow-lg">
+          <h6 class="text-gray-100">Approved</h6>
+          <p class="text-3xl font-bold"><%= approvedRequests || 0 %></p>
+        </div>
+
+        <div class="rounded-xl p-6 text-center text-white bg-gradient-to-tr from-red-400 to-red-600 shadow-lg">
+          <h6 class="text-gray-100">Rejected</h6>
+          <p class="text-3xl font-bold"><%= rejectedRequests || 0 %></p>
+        </div>
+      </div>
+
+      <!-- CTA -->
+        <a href="/dashboard/officer/requests"
+           class="inline-block bg-[#00bf63] text-white px-6 py-3 rounded-lg font-medium hover:bg-green-600 transition">
+          View All Requests
+        </a>
+    
+    </div>
+  </main>
+
+</body>
+</html>
